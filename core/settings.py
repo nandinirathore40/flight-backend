@@ -1,4 +1,13 @@
+import os
 from pathlib import Path
+
+# 1. Django ki default line pehle se likhi hogi:
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# 🎯 FIX: Jo do lines upar galat jagah thi, unhe BAS IS BASE_DIR KE NEECHE paste kar do!
+import environ
+env = environ.Env()
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -6,7 +15,7 @@ SECRET_KEY = 'django-insecure-u3nt!fe4lgyrq%$xdu=ac-j**#2$3v!33di3z)bd8c4dygm0v+
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # --- YAHAN DEKH, YE ZAROORI HAI ---
 INSTALLED_APPS = [
@@ -51,16 +60,24 @@ TEMPLATES = [
 WSGI_APPLICATION = 'core.wsgi.application'
 
 # --- POSTGRESQL SETTINGS ---
+#DATABASES = {
+#   'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#       'NAME': 'skybook_db',
+#        'USER': 'postgres',
+#       'PASSWORD': 'nandini123',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+#}
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skybook_db',
-        'USER': 'postgres',
-        'PASSWORD': 'nandini123',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -81,3 +98,13 @@ USE_I18N = True
 USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# --- PERMANENT RE-ENGINEERED SMTP SETTINGS ---
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+DEFAULT_FROM_EMAIL = f'"SkyBook CRM Services" <{EMAIL_HOST_USER}>'
+EMAIL_FAIL_SILENTLY = False
