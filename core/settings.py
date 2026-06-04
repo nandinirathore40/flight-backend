@@ -56,7 +56,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'skybook_db',
         'USER': 'postgres',
-        'PASSWORD': 'nandini123',
+        'PASSWORD': 'flight123',
         'HOST': 'localhost',
         'PORT': '5432',
     }
