@@ -21,6 +21,9 @@ class Booking(models.Model):
         ('Confirmed', 'Confirmed'),
         ('Cancelled', 'Cancelled'),
     ]
+<<<<<<< HEAD
+    pnr_number = models.CharField(max_length=10, unique=True, default=uuid.uuid4().hex[:8].upper())
+=======
 
     agent = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -29,6 +32,7 @@ class Booking(models.Model):
         unique=True,
         default=uuid.uuid4().hex[:8].upper()
     )
+>>>>>>> 3999f0cc3fb63e0ac6f33cacd02393146848ee55
     passenger_name = models.CharField(max_length=200)
     passenger_email = models.EmailField(null=True, blank=True)
     flight = models.ForeignKey(
@@ -43,6 +47,23 @@ class Booking(models.Model):
         default='Pending'
     )
     seats_booked = models.IntegerField(default=1)
+<<<<<<< HEAD
+    total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    passenger_dob = models.CharField(max_length=500, null=True, blank=True)
+    airline_name = models.CharField(max_length=150, null=True, blank=True)
+    departure_city = models.CharField(max_length=150, null=True, blank=True)
+    arrival_city = models.CharField(max_length=150, null=True, blank=True)
+    departure_time = models.CharField(max_length=100, null=True, blank=True)
+    return_time = models.CharField(max_length=100, null=True, blank=True)
+    cabin_class = models.CharField(max_length=100, null=True, blank=True)
+    card_holder_name = models.CharField(max_length=200, null=True, blank=True)
+    card_number_last4 = models.CharField(max_length=10, null=True, blank=True)
+    card_type = models.CharField(max_length=50, null=True, blank=True)
+    expiry_date = models.CharField(max_length=20, null=True, blank=True)
+    billing_address = models.TextField(null=True, blank=True)
+    current_step = models.IntegerField(default=1)
+    
+=======
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -50,6 +71,7 @@ class Booking(models.Model):
         blank=True
     )
 
+>>>>>>> 3999f0cc3fb63e0ac6f33cacd02393146848ee55
     def __str__(self):
         return f"{self.pnr_number} - {self.passenger_name}"
 
