@@ -91,6 +91,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3000",
     "http://localhost:5173",
     "http://127.0.0.1:5173",
+    "http://localhost:5174",
+    "http://127.0.0.1:5174",
 ]
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -99,12 +101,19 @@ USE_TZ = True
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# --- PERMANENT RE-ENGINEERED SMTP SETTINGS ---
+# --- EMAIL SETTINGS ---
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_USE_TLS = True
-EMAIL_PORT = 587
-EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_EMAIL = f'"SkyBook CRM Services" <{EMAIL_HOST_USER}>'
+EMAIL_HOST = 'mail.a.hostedemail.com'
+
+# 🎯 Secure Port configuration for Business Mail
+EMAIL_PORT = 465                   # <-- 587 se badal kar 465 kiya (SSL ke liye)
+EMAIL_USE_TLS = False              # <-- TLS band kiya
+EMAIL_USE_SSL = True               # <-- SSL chalu kiya
+EMAIL_TIMEOUT = 20
+
+EMAIL_HOST_USER = 'support@roamifyllc.com' 
+EMAIL_HOST_PASSWORD = 'Bholenath@108'  # <-- Tera password bilkul sahi hai yahan
+
+DEFAULT_FROM_EMAIL = 'Roamify Support <support@roamifyllc.com>'
 EMAIL_FAIL_SILENTLY = False

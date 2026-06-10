@@ -2,6 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # <--- Ye 'urls' hona chahiye, 'view_s' nahi
-    path('api/', include('crm.urls')),
+    # Admin panel ka rasta
+    path('admin/', admin.site.urls),  
+    
+    # 🎯 YAHAN SE 'api/' HATA DIYA HAI:
+    # Kyunki 'api/' humne niche wali crm/urls.py mein lagaya hua hai
+    path('', include('crm.urls')), 
+     
 ]
