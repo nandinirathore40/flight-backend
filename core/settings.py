@@ -9,7 +9,7 @@ import environ
 env = environ.Env()
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+
 
 SECRET_KEY = 'django-insecure-u3nt!fe4lgyrq%$xdu=ac-j**#2$3v!33di3z)bd8c4dygm0v+'
 
@@ -59,22 +59,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-# --- POSTGRESQL SETTINGS ---
-#DATABASES = {
-#   'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#       'NAME': 'skybook_db',
-#        'USER': 'postgres',
-#       'PASSWORD': 'nandini123',
-#        'HOST': 'localhost',
-#        'PORT': '5432',
-#    }
-#}
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'skybook_db',
+        'USER': 'postgres',
+        'PASSWORD': 'flight123',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
