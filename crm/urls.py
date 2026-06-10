@@ -21,5 +21,5 @@ urlpatterns = [
     # ---- 🅱️ HTML FORM PATHS ----
     path('booking/step-1/', views.booking_flight_details_view, name='step_1'),
     path('booking/step-1/<int:booking_id>/', views.booking_flight_details_view, name='step_1_resume'),
-    
+
 ]
