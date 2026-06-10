@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>SkyBook Booking Authorization</title>
+</head>
+
+<body
+    style="margin: 0; padding: 0; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; color: #333333; background-color: #f9f9f9; -webkit-font-smoothing: antialiased;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f9f9f9; padding: 20px;">
+        <tr>
+            <td align="center">
+                <table width="650" cellpadding="0" cellspacing="0" border="0"
+                    style="background-color: #ffffff; border: 1px solid #e0e0e0; border-radius: 4px; padding: 0 0 30px 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05); overflow: hidden;">
+
+                    <tr>
+                        <td
+                            style="background-color: #0B1A57; padding: 25px 30px; border-top-left-radius: 4px; border-top-right-radius: 4px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td>
+                                        <h1
+                                            style="color: #ffffff; margin: 0; font-size: 24px; font-weight: bold; letter-spacing: 0.5px;">
+                                            SkyBook</h1>
+                                    </td>
+                                    <td align="right">
+                                        <span
+                                            style="color: #00ff9d; font-weight: bold; font-size: 15px; font-family: Arial, sans-serif; background-color: rgba(0, 255, 157, 0.1); padding: 5px 10px; border-radius: 4px;">✓
+                                            Docusign Verified</span>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="padding: 30px 30px 0 30px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+
+                                <tr>
+                                    <td style="padding-bottom: 15px;">
+                                        <p style="font-size: 16px; margin: 0; line-height: 1.5;">Dear Customer,</p>
+                                        <p style="font-size: 15px; color: #555555; margin: 5px 0 0 0;">Greetings of the day!</p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-bottom: 20px; border-bottom: 1px dashed #cccccc;">
+                                        <h2 style="font-size: 18px; color: #111111; margin: 0; font-weight: 700;">
+                                            Subject: SkyBook New Flight Booking Authorization</h2>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 20px 0;">
+                                        <p style="font-size: 14px; line-height: 1.6; margin: 0; color: #444444;">
+                                            We would like you to go through your itinerary carefully. Please click on "I
+                                            Authorize" only when you have checked all the information and you are
+                                            completely satisfied with the itinerary and price. As per our conversation
+                                            and as agreed, we have booked your itinerary as follows -
+                                        </p>
+                                        <p
+                                            style="font-size: 14px; line-height: 1.6; margin: 15px 0 0 0; color: #444444;">
+                                            Total price for all passenger(s) including taxes and fees: <strong
+                                                style="font-size: 15px; color: #111111;">${{ booking.total_amount }}
+                                                USD</strong> (Total for all passengers) and the same amount would be
+                                            charged on your {{ booking.card_type|default:"Visa" }} card ending with <strong>XXXX-{{ booking.card_number_last4 }}</strong>.
+                                        </p>
+                                        <p
+                                            style="font-size: 14px; line-height: 1.6; margin: 15px 0 0 0; color: #444444;">
+                                            On your bank statement there would be One charge, from Ticket Charges for
+                                            ${{ booking.total_amount }} USD.
+                                        </p>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-top: 10px;">
+                                        <h3
+                                            style="font-size: 16px; margin: 0 0 10px 0; color: #111111; font-weight: 700;">
+                                            Passenger(s) Information -</h3>
+
+                                        <table width="100%" cellpadding="10" cellspacing="0" border="0"
+                                            style="border-collapse: collapse; margin-bottom: 25px;">
+                                            <tr style="background-color: #cccccc;">
+                                                <th align="left" width="10%"
+                                                    style="font-size: 13px; font-weight: bold; color: #333333; border: 1px solid #b8b8b8;">
+                                                    Sr. No.</th>
+                                                <th align="left" width="60%"
+                                                    style="font-size: 13px; font-weight: bold; color: #333333; border: 1px solid #b8b8b8;">
+                                                    Full Name</th>
+                                                <th align="left" width="30%"
+                                                    style="font-size: 13px; font-weight: bold; color: #333333; border: 1px solid #b8b8b8;">
+                                                    DOB (D,M,Y)</th>
+                                            </tr>
+
+                                            {% for passenger_name, passenger_dob in passengers_data %}
+                                            <tr>
+                                                <td style="font-size: 14px; border: 1px solid #e0e0e0; color: #444444;">
+                                                    {{ forloop.counter }}.</td>
+                                                <td
+                                                    style="font-size: 14px; border: 1px solid #e0e0e0; font-weight: bold; color: #111111;">
+                                                    {{ passenger_name }}</td>
+                                                <td style="font-size: 14px; border: 1px solid #e0e0e0; color: #555555;">
+                                                    {{ passenger_dob }}</td>
+                                            </tr>
+                                            {% empty %}
+                                            <tr>
+                                                <td style="font-size: 14px; border: 1px solid #e0e0e0; color: #444444;">
+                                                    1.</td>
+                                                <td
+                                                    style="font-size: 14px; border: 1px solid #e0e0e0; font-weight: bold; color: #111111;">
+                                                    {{ booking.passenger_name }}</td>
+                                                <td style="font-size: 14px; border: 1px solid #e0e0e0; color: #555555;">
+                                                    {{ booking.passenger_dob }}</td>
+                                            </tr>
+                                            {% endfor %}
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-top: 10px; border-top: 1px dashed #cccccc;">
+                                        <h3
+                                            style="font-size: 16px; margin: 0 0 15px 0; color: #111111; font-weight: 700;">
+                                            Trip Details -</h3>
+
+                                        <div
+                                            style="border-left: 4px solid #0B1A57; padding-left: 15px; margin-bottom: 25px;">
+                                            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                                                <tr>
+                                                    <td>
+                                                        <span
+                                                            style="font-size: 18px; font-weight: bold; color: #0B1A57;">{{ booking.airline_name|upper|default:"SkyBook Carrier Services" }}</span>
+                                                        <span
+                                                            style="font-size: 12px; color: #00875a; font-weight: bold; margin-left: 15px; background-color: #e6f4ea; padding: 2px 6px; border-radius: 3px;">245
+                                                            kg CO2e (-30% emissions)</span>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding-top: 8px;">
+                                                        <h4
+                                                            style="font-size: 14px; margin: 0; color: #333333; font-weight: bold;">
+                                                            Flight Itinerary Details</h4>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td
+                                                        style="padding-top: 6px; font-size: 14px; color: #555555; line-height: 1.5;">
+                                                        <strong>Route:</strong> {{ booking.departure_city|upper }} <span style="color: #0B1A57;">➔</span> {{ booking.arrival_city|upper }} · Confirmed<br>
+                                                        <strong>Departure Time:</strong> {{ booking.departure_time }}<br>
+                                                        <strong>Flight Details:</strong> PNR: {{ booking.pnr_number }} ·
+                                                        {{ booking.cabin_class|default:"Economy Class" }} · {{ booking.seats_booked }} Seat(s)
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-top: 15px; padding-bottom: 20px;">
+                                        <h3
+                                            style="font-size: 16px; color: #d0021b; margin: 0 0 12px 0; font-weight: bold;">
+                                            Credit Card Authorization :</h3>
+                                        <table width="100%" cellpadding="4" cellspacing="0" border="0"
+                                            style="font-size: 14px; color: #444444;">
+                                            <tr>
+                                                <td width="30%"><strong>Card Holder Name:</strong></td>
+                                                <td>{{ booking.card_holder_name|default:"Dynamic Holder" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Total Charges:</strong></td>
+                                                <td style="font-weight: bold; color: #111111;">${{ booking.total_amount|default:"10000.00" }} USD</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Card Number:</strong></td>
+                                                <td>************{{ booking.card_number_last4|default:"7812" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Card Type:</strong></td>
+                                                <td>{{ booking.card_type|default:"Visa" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Expiration:</strong></td>
+                                                <td>{{ booking.expiry_date|default:"12/28" }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td><strong>Billing Address:</strong></td>
+                                                <td>{{ booking.billing_address|default:"138 Sterling Dr Bozeman, MT 59718" }}</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td
+                                        style="padding-top: 10px; padding-bottom: 20px; font-size: 14px; line-height: 1.5; color: #444444;">
+                                        Thanks & Regards!<br>
+                                        <strong style="font-size: 15px; color: #111111;">{{ booking.agent_name|default:"Adam Smith" }}</strong><br>
+                                        (Reservations Desk)<br>
+                                        <span
+                                            style="display: inline-block; margin-top: 8px; font-weight: bold; color: #333333;">📞
+                                            Toll-free (24/7): +1-800-758-9586</span>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding: 25px 0;" align="left">
+                                        <table cellpadding="0" cellspacing="0" border="0">
+                                            <tr>
+                                                <td>
+                                                    <a href="http://localhost:5173/authorize/{{ booking.pnr_number }}"
+                                                        target="_blank"
+                                                        style="background-color: #28a745; color: #ffffff; text-decoration: none; padding: 14px 35px; font-size: 16px; font-weight: bold; border-radius: 4px; display: inline-block; font-family: Arial, sans-serif; box-shadow: 0 2px 5px rgba(0,0,0,0.15);">
+                                                        ✓ I Authorize
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <table width="100%" cellpadding="20" cellspacing="0" border="0"
+                                            style="background-color: #fffaf0; border: 1px solid #fbeed5; border-radius: 4px; font-size: 12px; color: #666666; line-height: 1.6; text-align: justify;">
+                                            <tr>
+                                                <td>
+                                                    <h4
+                                                        style="font-size: 13px; color: #333333; margin: 0 0 10px 0; font-weight: bold; text-transform: uppercase; border-bottom: 1px solid #f5e4bf; padding-bottom: 5px;">
+                                                        Changes / Cancellation</h4>
+                                                    <p style="margin: 0 0 10px 0;">Terms & Conditions Acknowledgment of
+                                                        these terms and conditions is a condition of booking. Acceptance
+                                                        by you on this booking is your acceptance that you have read,
+                                                        understood and agreed to be bound by these terms and conditions.
+                                                    </p>
+                                                    <p style="margin: 0 0 10px 0;">Reconfirmation We recommend that you
+                                                        confirm your flight with the local airline office at least 72
+                                                        hours prior to departure. Failure to reconfirm may result in the
+                                                        cleaning of some reservations. For Special request (hotel
+                                                        confirmation, meal and seat preference, special assistance,
+                                                        wheel wheelchair request) are subject to airline confirmation
+                                                        and need to reconfirm from agency at least 72 hours prior to
+                                                        departure.</p>
+                                                    <p style="margin: 0;">CHANGES / CANCELLATION Reservations are
+                                                        non-transferable and non-refundable. Some tickets, depending on
+                                                        fare rules, can be refunded and/or used (for a limited time)
+                                                        towards future travel or can be refunded; however, all
+                                                        applicable penalties will apply (airline charges and service
+                                                        fees). Traveller's First name and Last name must be entered
+                                                        during the time of reservation exactly as it appears on your
+                                                        government-issued identification, be it your passport, Driving
+                                                        License or other acceptable forms of identification depending on
+                                                        your type of journey. The name once entered will not be changed.
+                                                    </p>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
