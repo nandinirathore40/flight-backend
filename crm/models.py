@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 import uuid
 
+def generate_pnr():
+    return uuid.uuid4().hex[:8].upper()
 
 class Flight(models.Model):
     flight_number = models.CharField(max_length=10, unique=True)
@@ -21,49 +23,45 @@ class Booking(models.Model):
         ('Confirmed', 'Confirmed'),
         ('Cancelled', 'Cancelled'),
     ]
-<<<<<<< HEAD
-    pnr_number = models.CharField(max_length=10, unique=True, default=uuid.uuid4().hex[:8].upper())
-=======
 
-    agent = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    agent = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
 
     pnr_number = models.CharField(
-        max_length=10,
-        unique=True,
-        default=uuid.uuid4().hex[:8].upper()
-    )
->>>>>>> 3999f0cc3fb63e0ac6f33cacd02393146848ee55
+    max_length=10,
+    unique=True,
+    default=generate_pnr
+)
+    
     passenger_name = models.CharField(max_length=200)
     passenger_email = models.EmailField(null=True, blank=True)
+
     flight = models.ForeignKey(
         Flight,
         on_delete=models.CASCADE,
         related_name="bookings"
     )
+
     booking_date = models.DateTimeField(auto_now_add=True)
+
     status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='Pending'
-    )
-    seats_booked = models.IntegerField(default=1)
-<<<<<<< HEAD
-    total_amount = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
-    passenger_dob = models.CharField(max_length=500, null=True, blank=True)
-    airline_name = models.CharField(max_length=150, null=True, blank=True)
-    departure_city = models.CharField(max_length=150, null=True, blank=True)
-    arrival_city = models.CharField(max_length=150, null=True, blank=True)
-    departure_time = models.CharField(max_length=100, null=True, blank=True)
-    return_time = models.CharField(max_length=100, null=True, blank=True)
-    cabin_class = models.CharField(max_length=100, null=True, blank=True)
-    card_holder_name = models.CharField(max_length=200, null=True, blank=True)
-    card_number_last4 = models.CharField(max_length=10, null=True, blank=True)
-    card_type = models.CharField(max_length=50, null=True, blank=True)
-    expiry_date = models.CharField(max_length=20, null=True, blank=True)
-    billing_address = models.TextField(null=True, blank=True)
-    current_step = models.IntegerField(default=1)
+    max_length=20,
+    choices=STATUS_CHOICES,
+    default='Pending'
+)
+
+    is_authorized = models.BooleanField(default=False)
+
+    authorized_at = models.DateTimeField(null=True, blank=True)
     
-=======
+    seats_booked = models.IntegerField(default=1)
+
+    seats_booked = models.IntegerField(default=1)
+
     total_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
@@ -71,11 +69,26 @@ class Booking(models.Model):
         blank=True
     )
 
->>>>>>> 3999f0cc3fb63e0ac6f33cacd02393146848ee55
+    passenger_dob = models.CharField(max_length=500, null=True, blank=True)
+
+    airline_name = models.CharField(max_length=150, null=True, blank=True)
+    departure_city = models.CharField(max_length=150, null=True, blank=True)
+    arrival_city = models.CharField(max_length=150, null=True, blank=True)
+    departure_time = models.CharField(max_length=100, null=True, blank=True)
+    return_time = models.CharField(max_length=100, null=True, blank=True)
+    cabin_class = models.CharField(max_length=100, null=True, blank=True)
+
+    card_holder_name = models.CharField(max_length=200, null=True, blank=True)
+    card_number_last4 = models.CharField(max_length=10, null=True, blank=True)
+    card_type = models.CharField(max_length=50, null=True, blank=True)
+    expiry_date = models.CharField(max_length=20, null=True, blank=True)
+    billing_address = models.TextField(null=True, blank=True)
+
+    current_step = models.IntegerField(default=1)
+
     def __str__(self):
         return f"{self.pnr_number} - {self.passenger_name}"
-
-
+    
 class TicketExchange(models.Model):
     agent = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -128,7 +141,7 @@ class FutureCredit(models.Model):
     def __str__(self):
         return f"Credit for {self.customer_name} - ${self.credit_amount}"
 
-from django.contrib.auth.models import User
+
 
 class Message(models.Model):
     sender = models.ForeignKey(
