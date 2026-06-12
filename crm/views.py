@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-from rest_framework import viewsets, status
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-=======
 from django.shortcuts import render, redirect, get_object_or_404
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
@@ -25,7 +20,6 @@ from .models import (
     Message,
     generate_pnr
 )
->>>>>>> fd05a2e27a9b440e07f2f7f9caa0d7edefc4dbc3
 
 from .serializers import (
     FlightSerializer,
@@ -38,58 +32,6 @@ from .serializers import (
 )
 
 
-<<<<<<< HEAD
-@api_view(['POST'])
-def login_view(request):
-    email = request.data.get('email')
-    password = request.data.get('password')
-    selected_role = request.data.get('role')
-
-    if not email or not password or not selected_role:
-        return Response(
-            {'error': 'Email, password and role are required'},
-            status=status.HTTP_400_BAD_REQUEST
-        )
-
-    try:
-        user_obj = User.objects.get(email=email)
-    except User.DoesNotExist:
-        return Response(
-            {'error': 'Invalid email or password'},
-            status=status.HTTP_401_UNAUTHORIZED
-        )
-
-    user = authenticate(username=user_obj.username, password=password)
-
-    if user is not None:
-        actual_role = 'manager' if user.is_staff else 'agent'
-
-        if selected_role != actual_role:
-            return Response(
-                {
-                    'error': f'This account is registered as {actual_role}, not {selected_role}'
-                },
-                status=status.HTTP_403_FORBIDDEN
-            )
-
-        return Response({
-            'message': 'Login successful',
-            'user': {
-                'id': user.id,
-                'name': user.username,
-                'email': user.email,
-                'role': actual_role
-            }
-        }, status=status.HTTP_200_OK)
-
-    return Response(
-        {'error': 'Invalid email or password'},
-        status=status.HTTP_401_UNAUTHORIZED
-    )
-
-
-=======
->>>>>>> fd05a2e27a9b440e07f2f7f9caa0d7edefc4dbc3
 class FlightViewSet(viewsets.ModelViewSet):
     queryset = Flight.objects.all()
     serializer_class = FlightSerializer
@@ -99,8 +41,6 @@ class BookingViewSet(viewsets.ModelViewSet):
     queryset = Booking.objects.all()
     serializer_class = BookingSerializer
 
-<<<<<<< HEAD
-=======
     def create(self, request, *args, **kwargs):
         data = request.data
         print("Incoming raw data from React:", data)
@@ -265,7 +205,6 @@ class BookingViewSet(viewsets.ModelViewSet):
             )
 
 
->>>>>>> fd05a2e27a9b440e07f2f7f9caa0d7edefc4dbc3
 class TicketExchangeViewSet(viewsets.ModelViewSet):
     queryset = TicketExchange.objects.all()
     serializer_class = TicketExchangeSerializer
@@ -280,10 +219,6 @@ class FutureCreditViewSet(viewsets.ModelViewSet):
     queryset = FutureCredit.objects.all()
     serializer_class = FutureCreditSerializer
 
-<<<<<<< HEAD
-class MessageViewSet(viewsets.ModelViewSet):
-    serializer_class = MessageSerializer
-=======
 
 class MessageViewSet(viewsets.ModelViewSet):
     serializer_class = MessageSerializer
@@ -398,7 +333,6 @@ def login_view(request):
 def authorize_booking_view(request, booking_id):
     try:
         booking = Booking.objects.get(id=booking_id)
->>>>>>> fd05a2e27a9b440e07f2f7f9caa0d7edefc4dbc3
 
         booking.is_authorized = True
         booking.authorized_at = timezone.now()
@@ -416,19 +350,8 @@ def authorize_booking_view(request, booking_id):
         </html>
         """)
 
-<<<<<<< HEAD
-        return Message.objects.all()
-
-
-class UserViewSet(viewsets.ReadOnlyModelViewSet):
-    serializer_class = UserSerializer
-
-    def get_queryset(self):
-        return User.objects.all()
-=======
     except Booking.DoesNotExist:
         return HttpResponse(
             "<h2>Invalid Authorization Link</h2>",
             status=404
         )
->>>>>>> fd05a2e27a9b440e07f2f7f9caa0d7edefc4dbc3
