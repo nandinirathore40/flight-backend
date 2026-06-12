@@ -1,4 +1,5 @@
 import os
+import dj_database_url
 from pathlib import Path
 
 # 1. Django ki default line pehle se likhi hogi:
@@ -63,15 +64,16 @@ WSGI_APPLICATION = 'core.wsgi.application'
 
 
 
+
+
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'skybook_db',
-        'USER': 'postgres',
-        'PASSWORD': 'flight123',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default='postgres://postgres:flight123@localhost:5432/skybook_db',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [
