@@ -62,12 +62,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'core.wsgi.application'
 
-
-
-
-
-
-
 DATABASES = {
     'default': dj_database_url.config(
         default='postgres://postgres:flight123@localhost:5432/skybook_db',
@@ -91,6 +85,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
+    # Yahan apne live frontend ka URL daalna, example:
+    "https://your-frontend-project.vercel.app", 
 ]
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
