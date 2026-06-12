@@ -1,27 +1,35 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+from . import views
+from .views import login_view
 
-from .views import (
-    FlightViewSet,
-    BookingViewSet,
-    TicketExchangeViewSet,
-    TicketRefundViewSet,
-    FutureCreditViewSet,
-    MessageViewSet,
-    login_view,
-    UserViewSet
-)
+router = DefaultRouter(trailing_slash=True)
 
-router = DefaultRouter()
-router.register(r'flights', FlightViewSet)
-router.register(r'bookings', BookingViewSet)
-router.register(r'exchanges', TicketExchangeViewSet)
-router.register(r'refunds', TicketRefundViewSet)
-router.register(r'future-credits', FutureCreditViewSet)
-router.register(r'messages', MessageViewSet, basename='messages')
-router.register(r'users', UserViewSet, basename='users')
+router.register(r'flights', views.FlightViewSet, basename='flights')
+router.register(r'bookings', views.BookingViewSet, basename='bookings')
+
+router.register(r'exchanges', views.TicketExchangeViewSet, basename='exchanges')
+router.register(r'refunds', views.TicketRefundViewSet, basename='refunds')
+
+router.register(r'ticket-exchanges', views.TicketExchangeViewSet, basename='ticket-exchanges')
+router.register(r'ticket-refunds', views.TicketRefundViewSet, basename='ticket-refunds')
+
+router.register(r'future-credits', views.FutureCreditViewSet, basename='future-credits')
+router.register(r'messages', views.MessageViewSet, basename='messages')
+router.register(r'users', views.UserViewSet, basename='users')
 
 urlpatterns = [
-    path('login/', login_view, name='login'),
     path('', include(router.urls)),
+    path('login/', login_view, name='login'),
+
+    path('api/', include(router.urls)),
+    path('api/login/', login_view, name='api_login'),
+
+    path('booking/step-1/', views.booking_flight_details_view, name='step_1'),
+    path('booking/step-1/<int:booking_id>/', views.booking_flight_details_view, name='step_1_resume'),
+    path(
+    'authorize-booking/<int:booking_id>/',
+    views.authorize_booking_view,
+    name='authorize_booking'
+),
 ]
