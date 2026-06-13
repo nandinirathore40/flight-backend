@@ -6,10 +6,24 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # 🎯 FIX: Jo do lines upar galat jagah thi, unhe BAS IS BASE_DIR KE NEECHE paste kar do!
+# settings.py mein ye try karo
+import os
 import environ
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
+# Base directory setup pehle se hoga
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Environ setup
+env = environ.Env()
+
+# Render par .env file nahi hoti, isliye ye check karna zaroori hai
+env_file = os.path.join(BASE_DIR, '.env')
+if os.path.exists(env_file):
+    environ.Env.read_env(env_file)
+else:
+    # Agar .env nahi mila (production mein), toh 'env()' direct os.environ se values utha lega
+    # Tumhe bas Render dashboard mein variables set karne honge
+    pass
 
 
 SECRET_KEY = 'django-insecure-u3nt!fe4lgyrq%$xdu=ac-j**#2$3v!33di3z)bd8c4dygm0v+'
@@ -32,16 +46,17 @@ INSTALLED_APPS = [
     
 ]
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # Ye sabse upar hona chahiye
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'corsheaders.middleware.CorsMiddleware',  # <--- Ise yahan ekdum sahi jagah par daal
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
 ]
+    
+
 
 ROOT_URLCONF = 'core.urls'
 
@@ -85,8 +100,7 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:5173",
     "http://localhost:5174",
     "http://127.0.0.1:5174",
-    # Yahan apne live frontend ka URL daalna, example:
-    "https://your-frontend-project.vercel.app", 
+    "https://skybook-ten.vercel.app",  # <--- Ye wala URL daal do!
 ]
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -94,8 +108,11 @@ USE_I18N = True
 USE_TZ = True
 CORS_ALLOW_CREDENTIALS = True
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
+# settings.py
+CORS_ALLOW_ALL_ORIGINS = True  # Testing ke liye ise True kar
+CORS_ALLOW_CREDENTIALS = True
 # --- EMAIL SETTINGS ---
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
